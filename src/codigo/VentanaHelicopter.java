@@ -86,11 +86,11 @@ public class VentanaHelicopter extends javax.swing.JFrame {
     miPoder.redireccion(bufferGraphics);
     
     //Niveles
-    //Nivel2
     
-    if(miNivel.segundos >=1000){     //-----------------------------------------------
+    //Nivel2
+   // if(miNivel.segundos >=150){     //-----------------------------------------------
        miNivel.nivel2(miPared);
-   }
+   //}
 
       //chequeo de la colision
    if(miHelicoptero.chequeaColision(miPared, miPoder)){

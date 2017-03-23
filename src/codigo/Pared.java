@@ -61,7 +61,7 @@ public void creaPared(Graphics2D g2){
      
     //los pintamos
     g2.setColor(Color.blue);
-    //g2.fill(pared);
+  //  g2.fill(pared);
     //g2.fill(pared2);
     
     g2.drawImage(chompImage, (int)pared.getX(), (int)pared.getY(), null);

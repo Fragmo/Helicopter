@@ -24,7 +24,7 @@ public class Helicoptero extends Ellipse2D.Double {
     int posY;
     int vidas = 0;
     Image HelicopteroImage;
-    Poder miPoder = new Poder();
+    
 
   
     public Helicoptero (int PosX, int PosY){
@@ -70,14 +70,15 @@ public class Helicoptero extends Ellipse2D.Double {
         
         
         AreaHelicoptero.intersect(AreaVida);// coger vidaaaaaaaaaaaaaaaaaaaaaaaaas
-        if(!AreaHelicoptero.isEmpty()){
+        if(AreaHelicoptero.isEmpty()){
             //chocaVida= false;
-            vidas ++;
-            miPoder.vida.setFrame(miPoder.vida.getX()+100, miPoder.vida.getY(), 
-            miPoder.vida.getWidth(), miPoder.vida.getHeight());
-        }else{
-
             
+        }else{
+          vidas= vidas+2;
+            
+          po.vida.setFrame(po.vida.getX()+10000, po.vida.getY(), 
+          po.vida.getWidth(), po.vida.getHeight());
+         System.out.println("12");   
         }
         AreaHelicoptero = new Area(this);
         AreaHelicoptero.intersect(AreaPared1);

@@ -19,21 +19,44 @@ public class Niveles {
 
    
     
-public void nivel2(Pared miPared){
+public void nivel2(Pared p){
  // NIVEL DOS
-    if(segundos <4000000 //&& 
+ //&& 
       //miPared.pared.getY()>=0 && miPared.pared2.getY()>=0 &&
     //  miPared.pared.getY() <= 390 && miPared.pared2.getY() <=390 //&&
     //pared.getY() <= pared.getY() +30 &&
     //pared2.getY() <= pared.getY() +30 &&
     //pared.getX()== 628 &&
     //pared2.getX() == 628      
-            ){
+  boolean cambiaSentidoPared= false;
+  
+  
+   // MOVIEMIENTO NUEVO DE LA PRIMERA PARED
+   if(cambiaSentidoPared == false){
+ p.pared.setFrame(p.pared.getX()-1,p.pared.getY()-1 , p.pared.getWidth(), p.pared.getHeight());
+   }
+   if(p.pared.getY() == 0 ){
+       cambiaSentidoPared = true;
+   }
+   while(cambiaSentidoPared == true){
+   p.pared.setFrame(p.pared.getX()-1,p.pared.getY()-1 , p.pared.getWidth(), p.pared.getHeight());    
+   }
+   if(p.pared.getY() == 390){
+       cambiaSentidoPared = false;
+   // p.pared.setFrame(p.pared.getX()-1,p.pared.getY()+1 , p.pared.getWidth(), p.pared.getHeight());
+   }
    
-   miPared.pared.setFrame(miPared.pared.getX()-3,miPared.pared.getY()-1 , miPared.pared.getWidth(), miPared.pared.getHeight());
    
-   miPared.pared2.setFrame(miPared.pared2.getX()-3, miPared.pared2.getY()+1, miPared.pared2.getWidth(), miPared.pared2.getHeight());
    
-    }
+   //movimiento de la segunda pared
+ p.pared2.setFrame(p.pared2.getX()-1, p.pared2.getY()+1, p.pared2.getWidth(), p.pared2.getHeight());
+   if(p.pared2.getY() == 0 ){
+    p.pared2.setFrame(p.pared2.getX()-1, p.pared2.getY()-1, p.pared2.getWidth(), p.pared2.getHeight());   
+   }
+   if(p.pared2.getY() == 390){
+    p.pared2.setFrame(p.pared2.getX()-1, p.pared2.getY()+1, p.pared2.getWidth(), p.pared2.getHeight());    
+   } 
  }
 }
+
+
