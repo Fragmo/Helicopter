@@ -22,7 +22,7 @@ import javax.swing.Timer;
  * @author marcf
  */
 public class Pared{
-        
+        int velocidadY =3;
     //las variables de aqui son aplicables a todos los metodos de la clase
         Rectangle2D pared, pared2;
         
@@ -44,6 +44,7 @@ public class Pared{
      pared = new Rectangle2D.Double(Xinicial,posicionYPared,anchoPared,altoPared);
      pared2 = new Rectangle2D.Double(Xinicial+ Xinicial/2, posicionYPared2, anchoPared, altoPared);
      precargaImagenes();
+     
   }
   
     private void precargaImagenes(){
@@ -56,16 +57,21 @@ public class Pared{
     }
      
   
-public void creaPared(Graphics2D g2){
+public void creaPared(Graphics2D g2, Niveles n){
 
      
     //los pintamos
-    g2.setColor(Color.blue);
+   // g2.setColor(Color.blue);
   //  g2.fill(pared);
-    //g2.fill(pared2);
+  //  g2.fill(pared2);
     
     g2.drawImage(chompImage, (int)pared.getX(), (int)pared.getY(), null);
     g2.drawImage(chompImage, (int)pared2.getX(), (int)pared2.getY(), null);
+  
+    
+  if(n.cambiaSentidoPared ==true){
+     pared.setFrame(pared.getX()-3,pared.getY()+1 , pared.getWidth(), pared.getHeight()); 
+  }
    //los movemos. NIVEL 1
    pared.setFrame(pared.getX()-3,pared.getY() , pared.getWidth(), pared.getHeight());
    pared2.setFrame(pared2.getX()-3, pared2.getY(), pared2.getWidth(), pared2.getHeight());
@@ -73,6 +79,21 @@ public void creaPared(Graphics2D g2){
    
   
   }
+
+public void cambiaY1 (){
+   
+    pared.setFrame(pared.getX()-1, pared.getY()+velocidadY, pared.getWidth(), pared.getHeight());
+   velocidadY= (int) pared.getWidth()+3;
+}
+
+
+
+
+
+
+
+
+
 public void redireccionPared(Graphics2D g2){
    
     int PosicionRedireccion = Aleatorio.nextInt(300);

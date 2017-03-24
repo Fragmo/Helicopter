@@ -15,6 +15,8 @@ import static javafx.scene.input.KeyCode.X;
 import javax.swing.Timer;
 //////
 import java.applet.AudioClip;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -26,6 +28,7 @@ public class VentanaHelicopter extends javax.swing.JFrame {
     Poder miPoder = new Poder();
     Niveles miNivel = new Niveles();
     AudioClip cancion;
+    Image fondo;
     BufferedImage buffer = null;
     Graphics2D bufferGraphics, lienzoGraphics = null;
     
@@ -55,7 +58,10 @@ public class VentanaHelicopter extends javax.swing.JFrame {
         
         
     }
-    
+    private Image cargaImagen(String nombreImagen, double altoImagen){
+        return (new ImageIcon(new ImageIcon(getClass().getResource(nombreImagen))
+                .getImage().getScaledInstance(getWidth(), (int) altoImagen, Image.SCALE_DEFAULT))).getImage();
+    }
    public void inicializaBuffers(){
         lienzoGraphics = (Graphics2D) Lienzo.getGraphics(); 
         buffer = (BufferedImage) Lienzo.createImage(Lienzo.getWidth(), Lienzo.getHeight());
@@ -63,6 +69,8 @@ public class VentanaHelicopter extends javax.swing.JFrame {
         
         bufferGraphics.setColor(Color.BLACK);
         bufferGraphics.fillRect(0, 0, Lienzo.getWidth(), Lienzo.getHeight());
+        
+        fondo = cargaImagen("/Imagenes/espacio.png", getWidth());
    }
    
     public void musica (){
@@ -75,48 +83,69 @@ public class VentanaHelicopter extends javax.swing.JFrame {
    public void bucleJuego(){
        //declaracion de todas las clases
     bufferGraphics.setColor(Color.BLACK);
-    bufferGraphics.fillRect(0, 0, Lienzo.getWidth(), Lienzo.getHeight());
     
+    bufferGraphics.fillRect(0, 0, Lienzo.getWidth(), Lienzo.getHeight());
+    bufferGraphics.drawImage(fondo, 0, 0, null);
     miHelicoptero.bajaHelicoptero(bufferGraphics);
     
-    miPared.creaPared(bufferGraphics);
+ 
+    miPared.creaPared(bufferGraphics, miNivel);
+   
     miPared.redireccionPared(bufferGraphics);
     
-    miPoder.creaVida(bufferGraphics);      //abajo de todo el codigo esta el del contador. Revisarlo
+    miPoder.creaVida(bufferGraphics);      
     miPoder.redireccion(bufferGraphics);
-    
+//----------------------------------------------- 
     //Niveles
     
     //Nivel2
-   // if(miNivel.segundos >=150){     //-----------------------------------------------
+    if(miNivel.segundos >=150){     
        miNivel.nivel2(miPared);
-   //}
-
-      //chequeo de la colision
-   if(miHelicoptero.chequeaColision(miPared, miPoder)){
-       
-      miHelicoptero.vidas --;
+   }
+//-----------------------------------------------
       
-      if(miHelicoptero.vidas>0 ){
-          miPared.pared.setFrame(miPared.pared.getX()+miPared.Xinicial+ miPared.Xinicial, miPared.pared.getY(), miPared.pared.getWidth(), miPared.pared.getHeight());
-          miPared.pared2.setFrame(miPared.pared2.getX()+miPared.Xinicial+ miPared.Xinicial, miPared.pared2.getY(), miPared.pared2.getWidth(), miPared.pared2.getHeight());
-      }        
-              
-              
-              
-       if(miHelicoptero.vidas <= 0){
-       temporizador.stop();
+//chequeo colision  con el techo y suelo
+if(miHelicoptero.getY()== 0 || miHelicoptero.getY()==390){
+          temporizador.stop();
        cancion.stop();
        boton.setVisible(true);
-       
-       
-       }
-   }        
-            
-    lienzoGraphics.drawImage(buffer, 0,0, null);
-   }
-   
-   
+}
+
+//chequeo de la colision
+//   if(miHelicoptero.chequeaColisionPared1YVida(miPared, miPoder)){
+//       
+//         miHelicoptero.vidas --;
+//      
+//          if(miHelicoptero.vidas>0 ){
+//          miPared.pared.setFrame(miPared.pared.getX()+miPared.Xinicial+ miPared.Xinicial/2, miPared.pared.getY(), miPared.pared.getWidth(), miPared.pared.getHeight());
+//          
+//      }        
+//                    
+//          if(miHelicoptero.vidas <= 0){
+//           temporizador.stop();
+//           cancion.stop();
+//           boton.setVisible(true);
+//       
+//       
+//       }
+//   }   
+//   //chequeo de la colision con la segunda pared (para el redireccionamiento correcto cuando tenga vidas)
+//if(miHelicoptero.ChequeaColisionPared2(miPared)){
+//     miHelicoptero.vidas --;
+//
+//     if(miHelicoptero.vidas>0 ){
+// miPared.pared2.setFrame(miPared.pared2.getX()+miPared.Xinicial+ miPared.Xinicial/2, miPared.pared2.getY(), miPared.pared2.getWidth(), miPared.pared2.getHeight());   
+//     }
+// if(miHelicoptero.vidas <= 0){
+//       temporizador.stop();
+//       cancion.stop();
+//       boton.setVisible(true);
+//}   
+//            
+//    
+//   }
+   lienzoGraphics.drawImage(buffer, 0,0, null);
+   } 
    
 
    
@@ -185,15 +214,17 @@ public class VentanaHelicopter extends javax.swing.JFrame {
 
     private void LienzoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LienzoMouseExited
         temporizador.stop();
+        
     }//GEN-LAST:event_LienzoMouseExited
 
     private void botonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonMousePressed
-        miHelicoptero.setFrame(100, 100, 100, 20);  //recoloca el helicoptero
+        miHelicoptero.setFrame(100, 100, miHelicoptero.getWidth(), miHelicoptero.getHeight());  //recoloca el helicoptero
         miPared.restart(bufferGraphics); // recoloca las paredes
         miPoder.restart(bufferGraphics);
         temporizador.start(); // pone a contar otra vez el temporizador
         cancion.play();
         boton.setVisible(false);
+        miNivel.segundos =0;
     }//GEN-LAST:event_botonMousePressed
 
     private void LienzoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LienzoMouseEntered

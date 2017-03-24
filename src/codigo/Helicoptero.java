@@ -44,8 +44,8 @@ public class Helicoptero extends Ellipse2D.Double {
     }
     
     public void bajaHelicoptero(Graphics2D g2){
-      //  g2.setColor(Color.yellow);
-      //  g2.fill(this);
+       // g2.setColor(Color.yellow);
+       // g2.fill(this);
         g2.drawImage(HelicopteroImage, (int)this.getX(), (int)this.getY(), null);
         this.y ++ ;
         
@@ -57,46 +57,49 @@ public class Helicoptero extends Ellipse2D.Double {
         this.y = y-30;
     }
     
-    public boolean chequeaColision(Pared p, Poder po ){
+    public boolean chequeaColisionPared1YVida(Pared p, Poder po ){
        
         Area AreaHelicoptero = new Area(this);
         Area AreaPared1 = new Area(p.pared);
-        Area AreaPared2 = new Area(p.pared2);
+       
         Area AreaVida = new Area(po.vida);
         
         boolean chocaPared1 = true;
-        boolean chocaPared2 = true;
-      // boolean chocaVida = true;
+        
+      
         
         
         AreaHelicoptero.intersect(AreaVida);// coger vidaaaaaaaaaaaaaaaaaaaaaaaaas
         if(AreaHelicoptero.isEmpty()){
-            //chocaVida= false;
+            
             
         }else{
           vidas= vidas+2;
             
           po.vida.setFrame(po.vida.getX()+10000, po.vida.getY(), 
           po.vida.getWidth(), po.vida.getHeight());
-         System.out.println("12");   
-        }
+          
+        }  //Pared1
         AreaHelicoptero = new Area(this);
         AreaHelicoptero.intersect(AreaPared1);
         if(AreaHelicoptero.isEmpty()){
             chocaPared1 = false;
         }
-        AreaHelicoptero = new Area(this);
+
+        return (AreaHelicoptero.intersects(p.pared) || chocaPared1 );
+    }
+    public boolean ChequeaColisionPared2(Pared p){
+   
+                //pared2
+        boolean chocaPared2 = true;
+        Area AreaHelicoptero = new Area(this);
+        Area AreaPared2 = new Area(p.pared2);
+        
         AreaHelicoptero.intersect(AreaPared2);
         
         if(AreaHelicoptero.isEmpty()){
             chocaPared2 = false;
         }
-        
-        
-        
-        return (AreaHelicoptero.intersects(p.pared) || 
-                AreaHelicoptero.intersects(p.pared2) ||
-                chocaPared1 || chocaPared2
-                );
-    }
+        return (AreaHelicoptero.intersects(p.pared2) || chocaPared2);
+}
 }
